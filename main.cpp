@@ -8,6 +8,8 @@ int transformar(char cade[]);
 string enteroString(int num);
 string minuMayus(char cade[]);
 string eliminarRepetido(char cade[]);
+string separarCaracteres(string *ptr1, string *ptr2, char cadena[]);
+int sumarSeparar(int n, int num);
 
 int main()
 {
@@ -100,6 +102,25 @@ int main()
 
                 break;
             }
+            case 8:{
+                char cadena[W] = {};
+                string letras = "", numeros = "";
+                cout<<"Digite la cadena de caracteres: ";
+                cin>>cadena;
+
+                separarCaracteres(&numeros, &letras, cadena);
+
+                cout<<"Original: "<<cadena<<endl<<"Texto: "<<letras<<" Numero: "<<numeros<<endl;
+            }
+            case 9:{
+                int n, numero;
+                cout<<"Digite el numero en que quiere que se divida: ";
+                cin>>n;
+                cout<<"Digite el numero que quiere sumar: ";
+                cin>>numero;
+
+                sumarSeparar(n, numero);
+            }
         }
     }
     return 0;
@@ -167,4 +188,34 @@ string eliminarRepetido(char cade[]){
         }
     }
     return palabra;
+}
+
+string separarCaracteres(string *ptr1, string *ptr2, char cadena[]){
+    char caracter;
+    *ptr1 = "";
+    *ptr2 = "";
+
+    for(int i=0; i<W ; i++){
+        caracter = cadena[i];
+        if(caracter == '\0'){
+            break;
+        }
+        if(caracter > 47 && caracter < 58){
+            *ptr1 += caracter;
+        }
+        else{
+            *ptr2 += caracter;
+        }
+    }
+    return "";
+}
+
+int sumarSeparar(int n, int num){
+    int cont = 0, sum = 0;
+    char caracter = '';
+
+    while(caracter != '\0'){
+        caracter = num[cont];
+        cont ++;
+    }
 }
