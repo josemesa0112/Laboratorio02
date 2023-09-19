@@ -121,6 +121,9 @@ int main()
 
                 sumarSeparar(n, numero);
             }
+            case 10:{
+                break;
+            }
         }
     }
     return 0;
