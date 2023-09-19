@@ -7,6 +7,7 @@ bool comparar(char pal1[20], char pal2[20]);
 int transformar(char cade[]);
 string enteroString(int num);
 string minuMayus(char cade[]);
+void cadena_caracteres(int numero_entero, char *& numero_caracter);
 string eliminarRepetido(char cade[]);
 void separarCaracteres(string *ptr1, string *ptr2, char cadena[]);
 int sumarSeparar(int n, int num);
@@ -15,6 +16,9 @@ void imprimirFrecuencia (int frecuencia[]);
 void printcinema(char arreglo[15][20]);
 char resycan(char arreglo[15][20], string seleccion);
 int sum_div(int n);
+int ** llenarMatriz();
+int estrellas(int **puntero,int filas,int columnas);
+
 
 int main()
 {
@@ -92,11 +96,17 @@ int main()
                 break;
             }
             case 5:{
-                int numero;
-                cout<<"Digite el numero deseado: ";
-                cin>>numero;
+                int n = 0;
+                char *numero_caracter;
 
-                numero += 1;
+                cout<<"Ingrese un numero: "<<endl;
+                cin>>n;
+
+                cadena_caracteres(n, numero_caracter);
+
+                cout<<"El numero ingresado: "<<n<<" convertido a cadena es: "<<numero_caracter<<endl;
+
+                delete[]numero_caracter;
                 break;
             }
             case 6:{
@@ -182,7 +192,6 @@ int main()
                         }
                     }
                 }
-
                 for (k=0;k<10;k++){
                     if (Numero[k]>Numero[k+1])
                         suma+=Numero[k];
@@ -302,6 +311,9 @@ int main()
                 break;
             }
             case 13:{
+                int **puntero=llenarMatriz();
+                cout<<"El numero de estrellas es: "<<estrellas(puntero,6,8)<<endl;
+
                 break;
             }
             case 14:{
@@ -376,6 +388,22 @@ string minuMayus(char cade[]){
         caracter = cade[cont];
     }
     return palabra;
+}
+
+void cadena_caracteres(int numero_entero, char *& numero_caracter){
+    int numero = numero_entero;
+    int digitos = 0;
+
+    while ( numero != 0){
+        numero = numero / 10;
+        digitos++;
+    }
+    numero_caracter = new char[digitos + 1];
+    numero_caracter[digitos] = '\0';
+    for (int i = digitos - 1; i >= 0; i-- ){
+        numero_caracter[i] = 48 + numero_entero % 10;
+        numero_entero = numero_entero / 10;
+    }
 }
 
 string eliminarRepetido(char cade[]){
@@ -499,3 +527,47 @@ int sum_div(int n) {
     }
     return sum;
 }
+
+int ** llenarMatriz()
+{
+    // Funcion para el problema 13
+
+    int **puntero_matriz;
+    int nfilas;
+    int ncol;
+
+    cout<<"Digite el numero de filas: ";
+    cin>>nfilas;
+    cout<<"Digite el numero de columnas: ";
+    cin>>ncol;
+
+    puntero_matriz = new int*[nfilas];  //reservando memoria para la matriz
+    for(int i=0;i<nfilas;i++){
+        puntero_matriz[i]=new int[ncol];
+    }
+    cout<<endl;
+    cout<<"Digite los elementos de la imagen: "<<endl;
+    for(int i=0;i<nfilas;i++){
+        for(int j=0;j<ncol;j++){
+            cout<<"Digite el elemento["<<i+1<<"]["<<j+1<<"]: ";
+            cin>>*(*(puntero_matriz+i)+j);
+        }
+    }
+    return puntero_matriz;
+}
+
+int estrellas(int **puntero,int filas,int columnas)
+{
+    // Funcion para el problema 13
+
+    int estrellas=0;
+
+    for(int i=1;i<filas-1;i++){       //se recorre toda la matriz, sin tener en cuuenta los bordes
+        for(int j=1;j<columnas-1;j++)
+            if(((*(*(puntero+i)+j)+*(*(puntero+i)+j-1)+*(*(puntero+i)+j+1)+*(*(puntero+i-1)+j)+*(*(puntero+i+1)+j))/5)>6) //si se cumple la condicion se ha encontrado una estrella2
+                estrellas++;
+    }
+    return estrellas;
+}
+
+
