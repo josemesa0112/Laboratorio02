@@ -13,6 +13,8 @@ int sumarSeparar(int n, int num);
 void contarFrecuencia (char arreglo[],int frecuencia[]);
 void imprimirFrecuencia (int frecuencia[]);
 void printcinema(char arreglo[15][20]);
+char resycan(char arreglo[15][20], string seleccion);
+int sum_div(int n);
 
 int main()
 {
@@ -48,9 +50,9 @@ int main()
             case 2:{
                 srand(time(nullptr));
 
-                char mayus[200]; // Se crea el arreglo de letras con 200 letras
+                char mayus[200];
 
-                int frecuencia[26] = {0}; // Se crea para comparar con las letras que salen y contar cuantas veces sale la letra
+                int frecuencia[26] = {0};
 
                 for (int i = 0; i < 200 ; i++){
                     mayus [i] = 'A' + rand() % 26;
@@ -138,7 +140,6 @@ int main()
                 char arreglo[] = "87512395";
                 cout<< "Ingrese el arreglo: ";cin>>arreglo;
                 int longitud = sizeof(arreglo);
-                //cout<<longitud<<endl;
                 int paso = longitud-1 ;
 
                 while(cond!=n){
@@ -172,22 +173,22 @@ int main()
                 int Numero[10]={};
                 cout<<"Ingrese el numero romano a convertir en MAYUSCULAS"<<endl;
                 cin>>Letras;
-                while(Letras[cont]!='\0')     //Para saber la longitud del numero romano ingresado
+                while(Letras[cont]!='\0')
                     cont++;
                 for(i=0;i<cont;i++){
                     for(j=0;j<7;j++){
-                        if (Letras[i]==NumRomanos[j]){   //aqui recorro cada letra del numero romano ingresado y las comparo con el arreglo NumRomanos
-                            Numero[i]=NumEquivalentes[j];//aqui si coinciden las letras en el anterior if les asigno el valor correspondiente al sistema arabigo
+                        if (Letras[i]==NumRomanos[j]){
+                            Numero[i]=NumEquivalentes[j];
                         }
                     }
                 }
-                //aqui ya hemos almacenado todos los valores del numero ingresado por el usuario
+
                 for (k=0;k<10;k++){
-                    if (Numero[k]>Numero[k+1]) //aqui comparamos el numero en la posicion k con el de la posicion k+1 y si es mayor lo sumamos
+                    if (Numero[k]>Numero[k+1])
                         suma+=Numero[k];
-                    else if (Numero[k]<Numero[k+1]) //aqui el caso contrario si es menor lo restamos
+                    else if (Numero[k]<Numero[k+1])
                         suma-=Numero[k];
-                    else					//aqui es el default por si depronto solo se ingreso solo una letra
+                    else
                         suma+=Numero[k];
                 }
                 cout<<suma<<endl;
@@ -197,12 +198,12 @@ int main()
                 char sala[15][20];
                 string seleccion;
 
-                for(int i=0;i<15;i++){ //ciclos que generan el arreglo en dos dimensiones de la sala
+                for(int i=0;i<15;i++){
                     for(int j=0;j<20;j++){
                         sala[i][j] = '-';
                     }
                 }
-                printcinema(sala); //Impresión de la sala
+                printcinema(sala);
 
                 while(true){
                     cout << "Indique el asiento a reservar o a cancelar. Ejemplo: 'can A-17', 'res B-20', ingrese x para salir" << endl;
@@ -213,9 +214,10 @@ int main()
                         break;
                     }
 
-                    sala[15][20] = resycan(sala, seleccion); //Utilización de la función que reserva y cancela
-                    printcinema(sala); //Impresión de la sala actualizada
+                    sala[15][20] = resycan(sala, seleccion);
+                    printcinema(sala);
                 }
+                break;
             }
             case 12:{
                 int n, numeros, sumatoria=0, sumatoria1=0, ban = 1;
@@ -297,8 +299,35 @@ int main()
                 else{
                     cout << "La matriz no es magica" << endl;
                 }
+                break;
             }
+            case 13:{
+                break;
+            }
+            case 14:{
+                break;
+            }
+            case 15:{
+                break;
+            }
+            case 16:{
+                break;
+            }
+            case 17:{
+                int n1, n2, sum1, sum2;
+                cout << "Ingrese dos numeros: " << endl;
+                cin >> n1 >> n2;
+                sum1 = sum_div(n1);
+                sum2 = sum_div(n2);
+                if (sum1 == n2 && sum2 == n1) {
+                    cout << n1 << " y " << n2 << " son numeros amigos." << endl;
+                    cout<<"El resultado de la suma es: "<<sum1 + sum2<<endl;
+                } else {
+                    cout << n1 << " y " << n2 << " no son numeros amigos." << endl;
+                }
 
+                break;
+            }
         }
     }
     return 0;
@@ -388,7 +417,6 @@ void separarCaracteres(string *ptr1, string *ptr2, char cadena[]){
 }
 
 void contarFrecuencia (char arreglo[],int frecuencia[]){
-    // Funcion para el Problema 2
     for (int i = 0; i < 200; i++){
         frecuencia[arreglo[i] - 65]++;
     }
@@ -396,7 +424,6 @@ void contarFrecuencia (char arreglo[],int frecuencia[]){
 }
 
 void imprimirFrecuencia (int frecuencia[]){
-    // Funcion para el Problema 2
     for (int i = 0; i < 26 ; i++){
         if (frecuencia[i] > 0){
             cout<<(char)('A' + i)<<": "<<frecuencia[i]<<endl;
@@ -405,7 +432,6 @@ void imprimirFrecuencia (int frecuencia[]){
 }
 
 void printcinema(char arreglo[15][20]){
-    // Funcion para el Problema 11
 
     cout << endl << endl;
     cout << "Asientos disponibles en -, reservados en +." << endl;
@@ -415,4 +441,61 @@ void printcinema(char arreglo[15][20]){
         }
         cout << endl;
     }
+}
+
+char resycan(char arreglo[15][20], string seleccion){
+
+    int t = 0;
+    char des[3];
+    int fila = seleccion[4]- 65;
+    int columna;
+
+    if(seleccion[7]-48 >= 0 and seleccion[7]-48 <= 9){
+        columna =((seleccion[6]-48)*10) + (seleccion[7]-49);
+    }
+    else{
+        columna = seleccion[6]-49;
+    }
+    if(fila < 0 or fila >= 15){
+        cout << endl;
+        cout << "Comando incorrecto." << endl;
+        return arreglo[15][20];
+    }
+    else if(columna < 0 or columna >= 20){
+        cout << endl;
+        cout << "Comando incorrecto." << endl;
+        return arreglo[15][20];
+    }
+    for(int i=0; seleccion[i], i <=2; i++,t++){
+        *(des+i) = seleccion[i];
+    }
+    if(des[0] == 'r'){
+        if(*(*(arreglo+fila)+columna)== '+'){
+            cout << endl;
+            cout << "Asiento ya reservado, lamentablemente deberas buscar otro." << endl;
+        }
+        else{
+            *(*(arreglo+fila)+columna) = '+';
+        }
+    }
+    else if(des[0] == 'c'){
+        if(*(*(arreglo+fila)+columna) == '-'){
+            cout << endl;
+            cout << "Este asiento no esta reservado." << endl;
+        }
+        else{
+            *(*(arreglo+fila)+columna) = '-';
+        }
+    }
+    return arreglo[15][20];
+}
+
+int sum_div(int n) {
+    int sum = 0;
+    for (int i = 1; i < n; i++) {
+        if (n % i == 0) {
+            sum += i;
+        }
+    }
+    return sum;
 }
