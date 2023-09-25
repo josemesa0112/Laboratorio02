@@ -18,7 +18,10 @@ char resycan(char arreglo[15][20], string seleccion);
 int sum_div(int n);
 int ** llenarMatriz();
 int estrellas(int **puntero,int filas,int columnas);
-
+int *** rotate_matriz(int dim);
+void imprimir_conjunto_matriz(int ***conj_mat , int dim);
+int * interseccion_rectangulos_C(int A[],int B[]);
+int Factorial(int a);
 
 int main()
 {
@@ -317,12 +320,30 @@ int main()
                 break;
             }
             case 14:{
+                int dim = 5;
+
+                int *** m = rotate_matriz(dim);
+
+                imprimir_conjunto_matriz(m,dim);
                 break;
             }
             case 15:{
+                int A[]={0,0,8,4};
+                int B[]={5,2,3,2};
+                int *zoe=interseccion_rectangulos_C(A,B);
+                cout<<"{"<<zoe[0]<<","<<zoe[1]<<","<<zoe[2]<<","<<zoe[3]<<"}"<<endl;
                 break;
             }
             case 16:{
+                long long int n=0,fact1=0,fact2=0;
+                cout<<"Ingrese un numero"<<endl;
+                cin>>n;
+                fact1=Factorial(n);
+                cout<<"Para una malla de "<<n<<"x"<<n<<" hay ";
+                n=n+n;
+                fact2=Factorial(n);
+                n=fact2/(fact1*fact1);
+                cout<<n<<" caminos"<<endl;
                 break;
             }
             case 17:{
@@ -569,5 +590,57 @@ int estrellas(int **puntero,int filas,int columnas)
     }
     return estrellas;
 }
+
+int *** rotate_matriz(int dim)
+{
+    int *** conj_matriz = new int **[4];
+    conj_matriz[0] = generar_matriz(dim);
+    for (int i = 1; i<4; i++)
+    {
+        conj_matriz[i] = rotate_90(conj_matriz[i - 1],dim);
+    }
+    return conj_matriz;
+}
+
+void imprimir_conjunto_matriz(int ***conj_mat , int dim)
+{
+    for (int i = 0; i < 4 ; i++){
+        cout<<"Matriz rotada "<<i*90<<" grados"<<endl<<endl;
+        imprimir_matriz(conj_mat[i],dim);
+        cout<<endl<<endl;
+    }
+}
+
+int * interseccion_rectangulos_C(int A[],int B[]){
+    int ancho ,x,y,alto;
+    if (A[1]<=B[0]){
+        ancho=A[0]+A[2]-B[0];}
+    else{ancho=B[0]+B[2]-A[0];}
+    if (A[0]<=B[0]){
+        x=B[0];}
+    else{x=A[0];}
+    if (B[1]<=A[1]){
+        y=A[1];}
+    else{y=B[1];}
+    if (B[1]<=A[1]){
+        alto=B[1]+B[3]-A[1];}
+    else{alto=A[1]+A[3]-B[1];}
+    static int C[]={x,y,ancho,alto};
+    return C;
+}
+
+int Factorial(int a){
+    long long int fact=1;
+    if (a==0){
+        return fact;
+    }
+    else if(a!=0){
+        for (int i=1;i<= a;i++){
+            fact*=i;
+        }
+    }
+    return fact;
+}
+
 
 
