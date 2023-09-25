@@ -209,23 +209,19 @@ int main()
             case 11:{
                 char sala[15][20];
                 string seleccion;
-
                 for(int i=0;i<15;i++){
                     for(int j=0;j<20;j++){
                         sala[i][j] = '-';
                     }
                 }
                 printcinema(sala);
-
                 while(true){
                     cout << "Indique el asiento a reservar o a cancelar. Ejemplo: 'can A-17', 'res B-20', ingrese x para salir" << endl;
                     cout << "Comando: ";
                     getline(cin, seleccion);
-
                     if (seleccion == "x"){
                         break;
                     }
-
                     sala[15][20] = resycan(sala, seleccion);
                     printcinema(sala);
                 }
@@ -321,9 +317,7 @@ int main()
             }
             case 14:{
                 int dim = 5;
-
                 int *** m = rotate_matriz(dim);
-
                 imprimir_conjunto_matriz(m,dim);
                 break;
             }
@@ -367,7 +361,6 @@ int main()
 }
 
 bool comparar(char pal1[], char pal2[]){
-
     for(int i=0; i<W; i++){
         if(pal1[i] != pal2[i]){
             return false;
@@ -414,7 +407,6 @@ string minuMayus(char cade[]){
 void cadena_caracteres(int numero_entero, char *& numero_caracter){
     int numero = numero_entero;
     int digitos = 0;
-
     while ( numero != 0){
         numero = numero / 10;
         digitos++;
@@ -450,7 +442,6 @@ void separarCaracteres(string *ptr1, string *ptr2, char cadena[]){
     char caracter;
     *ptr1 = "";
     *ptr2 = "";
-
     for(int i=0; i<W ; i++){
         caracter = cadena[i];
         if(caracter == '\0'){
@@ -469,7 +460,6 @@ void contarFrecuencia (char arreglo[],int frecuencia[]){
     for (int i = 0; i < 200; i++){
         frecuencia[arreglo[i] - 65]++;
     }
-
 }
 
 void imprimirFrecuencia (int frecuencia[]){
@@ -481,7 +471,6 @@ void imprimirFrecuencia (int frecuencia[]){
 }
 
 void printcinema(char arreglo[15][20]){
-
     cout << endl << endl;
     cout << "Asientos disponibles en -, reservados en +." << endl;
     for(int i = 0; i < 15; i++){
@@ -493,12 +482,10 @@ void printcinema(char arreglo[15][20]){
 }
 
 char resycan(char arreglo[15][20], string seleccion){
-
     int t = 0;
     char des[3];
     int fila = seleccion[4]- 65;
     int columna;
-
     if(seleccion[7]-48 >= 0 and seleccion[7]-48 <= 9){
         columna =((seleccion[6]-48)*10) + (seleccion[7]-49);
     }
@@ -549,20 +536,15 @@ int sum_div(int n) {
     return sum;
 }
 
-int ** llenarMatriz()
-{
-    // Funcion para el problema 13
-
+int ** llenarMatriz(){
     int **puntero_matriz;
     int nfilas;
     int ncol;
-
     cout<<"Digite el numero de filas: ";
     cin>>nfilas;
     cout<<"Digite el numero de columnas: ";
     cin>>ncol;
-
-    puntero_matriz = new int*[nfilas];  //reservando memoria para la matriz
+    puntero_matriz = new int*[nfilas];
     for(int i=0;i<nfilas;i++){
         puntero_matriz[i]=new int[ncol];
     }
@@ -577,13 +559,9 @@ int ** llenarMatriz()
     return puntero_matriz;
 }
 
-int estrellas(int **puntero,int filas,int columnas)
-{
-    // Funcion para el problema 13
-
+int estrellas(int **puntero,int filas,int columnas){
     int estrellas=0;
-
-    for(int i=1;i<filas-1;i++){       //se recorre toda la matriz, sin tener en cuuenta los bordes
+    for(int i=1;i<filas-1;i++){
         for(int j=1;j<columnas-1;j++)
             if(((*(*(puntero+i)+j)+*(*(puntero+i)+j-1)+*(*(puntero+i)+j+1)+*(*(puntero+i-1)+j)+*(*(puntero+i+1)+j))/5)>6) //si se cumple la condicion se ha encontrado una estrella2
                 estrellas++;
@@ -591,8 +569,7 @@ int estrellas(int **puntero,int filas,int columnas)
     return estrellas;
 }
 
-int *** rotate_matriz(int dim)
-{
+int *** rotate_matriz(int dim){
     int *** conj_matriz = new int **[4];
     conj_matriz[0] = generar_matriz(dim);
     for (int i = 1; i<4; i++)
@@ -602,8 +579,7 @@ int *** rotate_matriz(int dim)
     return conj_matriz;
 }
 
-void imprimir_conjunto_matriz(int ***conj_mat , int dim)
-{
+void imprimir_conjunto_matriz(int ***conj_mat , int dim){
     for (int i = 0; i < 4 ; i++){
         cout<<"Matriz rotada "<<i*90<<" grados"<<endl<<endl;
         imprimir_matriz(conj_mat[i],dim);
@@ -626,6 +602,7 @@ int * interseccion_rectangulos_C(int A[],int B[]){
         alto=B[1]+B[3]-A[1];}
     else{alto=A[1]+A[3]-B[1];}
     static int C[]={x,y,ancho,alto};
+
     return C;
 }
 
