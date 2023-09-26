@@ -16,18 +16,22 @@ void imprimirFrecuencia (int frecuencia[]);
 void printcinema(char arreglo[15][20]);
 char resycan(char arreglo[15][20], string seleccion);
 int sum_div(int n);
-int ** llenarMatriz();
+int ** llenarMatriz(int nfilas, int ncol);
 int estrellas(int **puntero,int filas,int columnas);
 int *** rotate_matriz(int dim);
 void imprimir_conjunto_matriz(int ***conj_mat , int dim);
 int * interseccion_rectangulos_C(int A[],int B[]);
 int Factorial(int a);
+int ** generar_matriz(int dimension);
+int ** rotate_90 (int **matriz, int dimension);
+void imprimir_matriz(int **matriz, int dimension);
+int ** memoria_dinamica(int dim);
 
 int main()
 {
     int opc = 0;
     while(opc != 100){
-        cout<<"************MENU PRINCIPAL************"<<endl<<"1. Problema 1 "<<endl<<"2. Problema 2 "<<endl<<"3. Problema 3 "<<endl<<"4. Problema 4 "<<endl<<"5. Problema 5 "<<endl<<"6. Problema 6 "<<endl<<"7. Problema 7 "<<endl<<"8. Problema 8 "<<endl;
+        cout<<"************MENU PRINCIPAL************"<<endl<<"1. Problema 1 "<<endl<<"2. Problema 2 "<<endl<<"3. Problema 3 "<<endl<<"4. Problema 4 "<<endl<<"5. Problema 5 "<<endl<<"6. Problema 6 "<<endl<<"7. Problema 7 "<<endl<<"8. Problema 8 "<<endl<<"9. Problema 9 "<<endl<<"10. Problema 10 "<<endl<<"11. Problema 11 "<<endl<<"12. Problema 12 "<<endl<<"13. Problema 13 "<<endl<<"14. Problema 14 "<<endl<<"15. Problema 15 "<<endl<<"16. Problema 16 "<<endl<<"17. Problema 17 "<<endl;
         cout <<"Digite su opcion: ";
         cin>>opc;
         switch(opc){
@@ -102,7 +106,7 @@ int main()
                 int n = 0;
                 char *numero_caracter;
 
-                cout<<"Ingrese un numero: "<<endl;
+                cout<<"Ingrese un numero: ";
                 cin>>n;
 
                 cadena_caracteres(n, numero_caracter);
@@ -121,7 +125,7 @@ int main()
 
                 palabra = minuMayus(cadena);
 
-                cout<<palabra<<endl;
+                cout<<"Original: "<<cadena<<endl<<"Mayuscula: "<<palabra<<endl;
                 break;
             }
             case 7:{
@@ -145,37 +149,9 @@ int main()
                 separarCaracteres(&numeros, &letras, cadena);
 
                 cout<<"Original: "<<cadena<<endl<<"Texto: "<<letras<<" Numero: "<<numeros<<endl;
+                break;
             }
             case 9:{
-                int n=0,cond=0,acum=0,it=0,acum1=0,cambio=1;
-                cout << "Ingrese n: ";
-                cin>>n;
-                char arreglo[] = "87512395";
-                cout<< "Ingrese el arreglo: ";cin>>arreglo;
-                int longitud = sizeof(arreglo);
-                int paso = longitud-1 ;
-
-                while(cond!=n){
-                    while(it!=n){
-                        if(paso<0){
-                            break;}
-                        else{
-                            acum += (arreglo[paso] - '0') * cambio;
-                            paso--;
-                            cambio*=10;
-                            it++;
-                        }
-                    }
-                    acum1+=acum;
-                    acum=0;
-                    cond++;
-                    it=0;
-                    cambio=1;
-
-                }
-                cout<<"Original: "<<arreglo<<endl;
-                cout<<"Suma: "<<acum1<<endl;
-
                 break;
             }
             case 10:{
@@ -184,7 +160,7 @@ int main()
                 int  NumEquivalentes[7]={1000,500,100,50,10,5,1};
                 char Letras[10]={};
                 int Numero[10]={};
-                cout<<"Ingrese el numero romano a convertir en MAYUSCULAS"<<endl;
+                cout<<"Ingrese el numero romano a convertir en MAYUSCULAS";
                 cin>>Letras;
                 while(Letras[cont]!='\0')
                     cont++;
@@ -292,12 +268,7 @@ int main()
                 cout << endl;
                 for(int i=0;i<n;i++){
                     for(int j=0; j<n;j++){
-                        if(matriz[i][j]/104 >= 1){
-                            cout << matriz[i][j] << " ";
-                        }
-                        else{
-                            cout << " " << matriz[i][j] << " ";
-                        }
+                        cout << " " << matriz[i][j] << " ";
                     }
                     cout << endl;
                 }
@@ -310,8 +281,15 @@ int main()
                 break;
             }
             case 13:{
-                int **puntero=llenarMatriz();
-                cout<<"El numero de estrellas es: "<<estrellas(puntero,6,8)<<endl;
+                int nfilas;
+                int ncol;
+
+                cout<<"Digite el numero de filas: ";
+                cin>>nfilas;
+                cout<<"Digite el numero de columnas: ";
+                cin>>ncol;
+                int **puntero=llenarMatriz(nfilas, ncol);
+                cout<<"El numero de estrellas es: "<<estrellas(puntero,nfilas,ncol)<<endl;
 
                 break;
             }
@@ -330,7 +308,7 @@ int main()
             }
             case 16:{
                 long long int n=0,fact1=0,fact2=0;
-                cout<<"Ingrese un numero"<<endl;
+                cout<<"Ingrese un numero";
                 cin>>n;
                 fact1=Factorial(n);
                 cout<<"Para una malla de "<<n<<"x"<<n<<" hay ";
@@ -536,15 +514,10 @@ int sum_div(int n) {
     return sum;
 }
 
-int ** llenarMatriz(){
+int ** llenarMatriz(int nfilas, int ncol){
     int **puntero_matriz;
-    int nfilas;
-    int ncol;
-    cout<<"Digite el numero de filas: ";
-    cin>>nfilas;
-    cout<<"Digite el numero de columnas: ";
-    cin>>ncol;
-    puntero_matriz = new int*[nfilas];
+
+    puntero_matriz = new int*[nfilas];  //reservando memoria para la matriz
     for(int i=0;i<nfilas;i++){
         puntero_matriz[i]=new int[ncol];
     }
@@ -561,12 +534,35 @@ int ** llenarMatriz(){
 
 int estrellas(int **puntero,int filas,int columnas){
     int estrellas=0;
+
     for(int i=1;i<filas-1;i++){
         for(int j=1;j<columnas-1;j++)
             if(((*(*(puntero+i)+j)+*(*(puntero+i)+j-1)+*(*(puntero+i)+j+1)+*(*(puntero+i-1)+j)+*(*(puntero+i+1)+j))/5)>6) //si se cumple la condicion se ha encontrado una estrella2
                 estrellas++;
     }
     return estrellas;
+}
+
+
+int ** memoria_dinamica(int dim){
+    int ** a;
+    a = new int * [dim];
+    for (int i = 0; i< dim; i ++){
+        a [i ] = new int [dim];
+    }
+    return a;
+}
+
+int ** rotate_90 (int **matriz, int dimension)
+{
+    int **R_matriz = memoria_dinamica(dimension);
+    for(int f = 0; f < dimension; f++){
+        for(int c = 0; c < dimension; c++){
+            R_matriz[c][dimension - f- 1] = matriz[f][c] ;
+        }
+    }
+
+    return R_matriz;
 }
 
 int *** rotate_matriz(int dim){
@@ -577,6 +573,25 @@ int *** rotate_matriz(int dim){
         conj_matriz[i] = rotate_90(conj_matriz[i - 1],dim);
     }
     return conj_matriz;
+}
+
+int ** generar_matriz(int dimension){
+    int ** matriz = memoria_dinamica(dimension);
+    for(int f = 0; f < dimension; f++){
+        for(int c = 0; c < dimension; c++){
+            matriz[f][c] = (c+1) + dimension * f;
+        }
+    }
+    return matriz;
+}
+
+void imprimir_matriz(int **matriz, int dimension){
+    for(int f = 0; f < dimension; f++){
+        for(int c = 0; c < dimension; c++){
+            cout<< matriz[f][c]<<"\t";
+        }
+        cout<<endl<<endl;
+    }
 }
 
 void imprimir_conjunto_matriz(int ***conj_mat , int dim){
