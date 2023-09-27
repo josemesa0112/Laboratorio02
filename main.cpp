@@ -152,6 +152,32 @@ int main()
                 break;
             }
             case 9:{
+                int n;
+                string cadena;
+                cout << "Ingrese el valor de n: ";
+                cin >> n;
+
+                cout << "Ingrese la cadena de caracteres numéricos: ";
+                cin >> cadena;
+
+                // Asegurémonos de que la cadena tenga una longitud múltiplo de n
+                int ceros_faltantes = n - cadena.length() % n;
+                if (ceros_faltantes != n) {
+                    cadena = string(ceros_faltantes, '0') + cadena;
+                }
+
+                // Variables para mantener la suma
+                int suma = 0;
+
+                // Iteramos sobre la cadena, sumando números de n cifras
+                for (int i = 0; i < cadena.length(); i += n) {
+                    string segmento = cadena.substr(i, n);
+                    suma += stoi(segmento);
+                }
+
+                // Imprimimos el resultado
+                cout << "Original: " << cadena << endl;
+                cout << "Suma: " << suma << endl;
                 break;
             }
             case 10:{
@@ -300,8 +326,17 @@ int main()
                 break;
             }
             case 15:{
-                int A[]={0,0,8,4};
-                int B[]={5,2,3,2};
+                int x1, y1, x2, y2, ancho1, ancho2, alto1, alto2;
+                cout<<"Digite el valor x1 y luego x2: ";
+                cin>>x1>>x2;
+                cout<<"Digite el valor y1 y luego y2: ";
+                cin>>y1>>y2;
+                cout<<"Digite el valor ancho1 y luego ancho2: ";
+                cin>>ancho1>>ancho2;
+                cout<<"Digite el valor altura1 y luego altura2: ";
+                cin>>alto1>>alto2;
+                int A[]={x1,y1,ancho1, alto1};
+                int B[]={x2,y2,ancho2,alto2};
                 int *zoe=interseccion_rectangulos_C(A,B);
                 cout<<"{"<<zoe[0]<<","<<zoe[1]<<","<<zoe[2]<<","<<zoe[3]<<"}"<<endl;
                 break;
@@ -330,7 +365,6 @@ int main()
                 } else {
                     cout << n1 << " y " << n2 << " no son numeros amigos." << endl;
                 }
-
                 break;
             }
         }
